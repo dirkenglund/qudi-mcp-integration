@@ -10,14 +10,34 @@ Enable natural language control of quantum experiments through Claude Desktop!
 
 ## 🚀 Quick Start
 
-### 1. Installation
+### 1. Installation Options
+
+**📋 Standalone Mode (Recommended for Testing)**
 ```bash
 # Clone this repository
 git clone https://github.com/dirkenglund/qudi-mcp-integration.git
 cd qudi-mcp-integration
 
-# Install dependencies
-pip install -r requirements.txt
+# Install minimal dependencies (simulation only)
+pip install -r requirements-standalone.txt
+```
+
+**🖼️ With Plot Extraction Capabilities**
+```bash  
+# Install standalone + plot extraction
+pip install -r requirements-standalone.txt
+pip install -r requirements-plot-extraction.txt
+```
+
+**🔬 Full qudi Integration (For Hardware Control)**
+```bash
+# For real quantum hardware control
+pip install -r requirements-full.txt
+
+# Additional setup required:
+# 1. Install qudi-core separately
+# 2. Configure hardware drivers  
+# 3. Set up measurement modules
 ```
 
 ### 2. Configure Claude Desktop
@@ -74,6 +94,18 @@ Restart Claude Desktop and try:
 - Contextual tool suggestions
 - Comprehensive error reporting
 - Audit logging for all operations
+
+### 🖼️ Plot Extraction (Optional)
+- **RKHS Spline Projection** - Mathematical smoothing using reproducing kernel Hilbert spaces
+- **Computer Vision** - Extract data points from scientific plots and graphs
+- **Spectrum Analysis** - Advanced processing for spectroscopy data
+- **Multiple Formats** - Support for PNG, JPG, TIFF, and other image formats
+- **Quantum Data** - Optimized for photoluminescence and transport measurements
+
+**Plot Extraction Commands:**
+- "Extract data from this plot image: /path/to/spectrum.png"
+- "Analyze spectrum with RKHS smoothing using epsilon 0.05"
+- "What plot extraction capabilities are available?"
 
 ## Architecture
 

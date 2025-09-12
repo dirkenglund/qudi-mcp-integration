@@ -1,0 +1,12 @@
+# qudi MCP Integration - Plot Extraction Requirements
+# Additional dependencies for advanced plot data extraction
+
+# Computer vision and image processing
+opencv-python>=4.5.0
+pillow>=8.0.0
+
+# Scientific plotting and visualization
+matplotlib>=3.4.0
+
+# Additional image processing (optional)
+scikit-image>=0.18.0

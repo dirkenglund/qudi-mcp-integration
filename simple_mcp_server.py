@@ -12,14 +12,21 @@ import asyncio
 import logging
 from pathlib import Path
 
-# Add project root to path
-project_root = Path(__file__).parent.parent
+# Add project root to path  
+project_root = Path(__file__).parent
 sys.path.insert(0, str(project_root))
 
-from mcp_integration.safety import RunLevel, SafetyChecker
-from mcp_integration.tools.instrument_tools import InstrumentTools
-from mcp_integration.tools.measurement_tools import MeasurementTools
-from mcp_integration.tools.safety_tools import SafetyTools
+from safety import RunLevel, SafetyChecker
+from tools.instrument_tools import InstrumentTools
+from tools.measurement_tools import MeasurementTools
+from tools.safety_tools import SafetyTools
+
+# Optional plot extraction tools
+try:
+    from tools.plot_extraction_tools import PlotExtractionTools
+    PLOT_EXTRACTION_AVAILABLE = True
+except ImportError:
+    PLOT_EXTRACTION_AVAILABLE = False
 
 
 class SimpleMCPServer:
@@ -37,6 +44,12 @@ class SimpleMCPServer:
         self.measurement_tools = MeasurementTools(self)
         self.safety_tools = SafetyTools(self)
         
+        # Optional plot extraction tools
+        if PLOT_EXTRACTION_AVAILABLE:
+            self.plot_tools = PlotExtractionTools(self)
+        else:
+            self.plot_tools = None
+        
     def _setup_logging(self):
         """Setup logging for debugging"""
         logger = logging.getLogger("qudi-mcp-simple")
@@ -52,7 +65,7 @@ class SimpleMCPServer:
         
     def get_tools(self):
         """Return list of available tools"""
-        return [
+        tools = [
             {
                 "name": "station_info",
                 "description": "Get qudi station configuration and status",
@@ -161,6 +174,64 @@ class SimpleMCPServer:
             }
         ]
         
+        # Add plot extraction tools if available
+        if PLOT_EXTRACTION_AVAILABLE:
+            plot_tools = [
+                {
+                    "name": "plot_extract_data",
+                    "description": "Extract x,y data points from scientific plot images using computer vision",
+                    "inputSchema": {
+                        "type": "object",
+                        "properties": {
+                            "image_path": {"type": "string", "description": "Path to the plot image file"}
+                        },
+                        "required": ["image_path"]
+                    }
+                },
+                {
+                    "name": "plot_extract_spectrum",
+                    "description": "Extract and smooth spectrum data from plot images using RKHS projection",
+                    "inputSchema": {
+                        "type": "object", 
+                        "properties": {
+                            "image_path": {"type": "string", "description": "Path to spectrum image file"},
+                            "wavelength_range": {"type": "array", "items": {"type": "number"}, "description": "Min/max wavelength range [nm]", "default": [400, 800]},
+                            "epsilon": {"type": "number", "description": "RKHS kernel width parameter", "default": 0.05},
+                            "lambda_reg": {"type": "number", "description": "Regularization parameter", "default": 0.001}
+                        },
+                        "required": ["image_path"]
+                    }
+                },
+                {
+                    "name": "plot_analyze_with_rkhs",
+                    "description": "Apply RKHS spline projection to smooth and analyze data arrays",
+                    "inputSchema": {
+                        "type": "object",
+                        "properties": {
+                            "x_data": {"type": "array", "items": {"type": "number"}, "description": "X coordinate data"},
+                            "y_data": {"type": "array", "items": {"type": "number"}, "description": "Y coordinate data"},
+                            "epsilon": {"type": "number", "description": "Kernel width parameter", "default": 0.05},
+                            "lambda_reg": {"type": "number", "description": "Regularization parameter", "default": 0.001},
+                            "kernel_type": {"type": "string", "enum": ["gaussian", "rbf", "polynomial"], "default": "gaussian"},
+                            "prediction_points": {"type": "integer", "description": "Number of points for smooth curve", "default": 100}
+                        },
+                        "required": ["x_data", "y_data"]
+                    }
+                },
+                {
+                    "name": "plot_list_capabilities",
+                    "description": "List plot extraction capabilities and supported formats",
+                    "inputSchema": {
+                        "type": "object",
+                        "properties": {},
+                        "required": []
+                    }
+                }
+            ]
+            tools.extend(plot_tools)
+            
+        return tools
+        
     async def call_tool(self, name: str, arguments: dict):
         """Call a tool and return results"""
         
@@ -189,6 +260,8 @@ class SimpleMCPServer:
                 result = await self.safety_tools.handle_tool(converted_name, arguments)
             elif name.startswith("feedback_"):
                 result = await self._route_feedback_tool(name, arguments)
+            elif name.startswith("plot_") and self.plot_tools:
+                result = await self.plot_tools.handle_tool(name, arguments)
             else:
                 result = {"error": f"Unknown tool: {name}"}
                 
