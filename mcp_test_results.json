@@ -1,0 +1,490 @@
+{
+  "timestamp": "2024-09-11",
+  "results": {
+    "station_info_1": {
+      "tool_name": "station_info",
+      "description": "Get station information",
+      "arguments": {},
+      "result": {
+        "success": true,
+        "result": {
+          "status": "operational",
+          "runlevel": "dry-run",
+          "station_loaded": true,
+          "instruments_loaded": 0,
+          "active_measurements": 0,
+          "safety_status": "active",
+          "message": "qudi MCP integration running in dry-run mode"
+        },
+        "raw_response": {
+          "jsonrpc": "2.0",
+          "id": 1,
+          "result": {
+            "content": [
+              {
+                "type": "text",
+                "text": "{\n  \"status\": \"operational\",\n  \"runlevel\": \"dry-run\",\n  \"station_loaded\": true,\n  \"instruments_loaded\": 0,\n  \"active_measurements\": 0,\n  \"safety_status\": \"active\",\n  \"message\": \"qudi MCP integration running in dry-run mode\"\n}"
+              }
+            ]
+          }
+        }
+      }
+    },
+    "instrument_list_2": {
+      "tool_name": "instrument_list",
+      "description": "List available instruments",
+      "arguments": {},
+      "result": {
+        "success": true,
+        "result": {
+          "instruments": [
+            {
+              "name": "laser_controller",
+              "type": "laser",
+              "status": "available",
+              "description": "Main laser controller for quantum dot excitation"
+            },
+            {
+              "name": "gate_dac",
+              "type": "dac",
+              "status": "available",
+              "description": "Gate voltage DAC for quantum device control"
+            },
+            {
+              "name": "bias_dac",
+              "type": "dac",
+              "status": "available",
+              "description": "Bias voltage DAC"
+            },
+            {
+              "name": "photon_counter",
+              "type": "counter",
+              "status": "available",
+              "description": "Single photon counting module"
+            },
+            {
+              "name": "spectrometer",
+              "type": "spectrometer",
+              "status": "available",
+              "description": "High resolution spectrometer"
+            },
+            {
+              "name": "temperature_controller",
+              "type": "temperature",
+              "status": "available",
+              "description": "Cryostat temperature controller"
+            }
+          ],
+          "runlevel": "dry-run",
+          "message": "Simulated instrument list"
+        },
+        "raw_response": {
+          "jsonrpc": "2.0",
+          "id": 1,
+          "result": {
+            "content": [
+              {
+                "type": "text",
+                "text": "{\n  \"instruments\": [\n    {\n      \"name\": \"laser_controller\",\n      \"type\": \"laser\",\n      \"status\": \"available\",\n      \"description\": \"Main laser controller for quantum dot excitation\"\n    },\n    {\n      \"name\": \"gate_dac\",\n      \"type\": \"dac\",\n      \"status\": \"available\",\n      \"description\": \"Gate voltage DAC for quantum device control\"\n    },\n    {\n      \"name\": \"bias_dac\",\n      \"type\": \"dac\",\n      \"status\": \"available\",\n      \"description\": \"Bias voltage DAC\"\n    },\n    {\n      \"name\": \"photon_counter\",\n      \"type\": \"counter\",\n      \"status\": \"available\",\n      \"description\": \"Single photon counting module\"\n    },\n    {\n      \"name\": \"spectrometer\",\n      \"type\": \"spectrometer\",\n      \"status\": \"available\",\n      \"description\": \"High resolution spectrometer\"\n    },\n    {\n      \"name\": \"temperature_controller\",\n      \"type\": \"temperature\",\n      \"status\": \"available\",\n      \"description\": \"Cryostat temperature controller\"\n    }\n  ],\n  \"runlevel\": \"dry-run\",\n  \"message\": \"Simulated instrument list\"\n}"
+              }
+            ]
+          }
+        }
+      }
+    },
+    "instrument_load_3": {
+      "tool_name": "instrument_load",
+      "description": "Load an instrument",
+      "arguments": {
+        "instrument_name": "test_laser"
+      },
+      "result": {
+        "success": true,
+        "result": {
+          "status": "success",
+          "instrument": "test_laser",
+          "message": "Simulated loading of test_laser",
+          "runlevel": "dry-run"
+        },
+        "raw_response": {
+          "jsonrpc": "2.0",
+          "id": 1,
+          "result": {
+            "content": [
+              {
+                "type": "text",
+                "text": "{\n  \"status\": \"success\",\n  \"instrument\": \"test_laser\",\n  \"message\": \"Simulated loading of test_laser\",\n  \"runlevel\": \"dry-run\"\n}"
+              }
+            ]
+          }
+        }
+      }
+    },
+    "measurement_list_modules_4": {
+      "tool_name": "measurement_list_modules",
+      "description": "List measurement modules",
+      "arguments": {},
+      "result": {
+        "success": true,
+        "result": {
+          "modules": [
+            {
+              "name": "photoluminescence_scan",
+              "type": "spectroscopy",
+              "description": "PL spectroscopy measurement",
+              "parameters": [
+                "wavelength_start",
+                "wavelength_end",
+                "wavelength_step",
+                "integration_time",
+                "laser_power"
+              ]
+            },
+            {
+              "name": "gate_sweep",
+              "type": "transport",
+              "description": "Gate voltage sweep measurement",
+              "parameters": [
+                "gate_start",
+                "gate_end",
+                "gate_step",
+                "bias_voltage",
+                "measurement_time"
+              ]
+            },
+            {
+              "name": "resonance_scan",
+              "type": "spectroscopy",
+              "description": "Resonance frequency scan",
+              "parameters": [
+                "frequency_start",
+                "frequency_end",
+                "frequency_step",
+                "power",
+                "integration_time"
+              ]
+            },
+            {
+              "name": "time_trace",
+              "type": "time_series",
+              "description": "Time-resolved measurement",
+              "parameters": [
+                "total_time",
+                "time_resolution",
+                "trigger_source"
+              ]
+            },
+            {
+              "name": "2d_gate_map",
+              "type": "transport_2d",
+              "description": "2D gate voltage map",
+              "parameters": [
+                "gate1_start",
+                "gate1_end",
+                "gate1_steps",
+                "gate2_start",
+                "gate2_end",
+                "gate2_steps",
+                "bias_voltage",
+                "integration_time"
+              ]
+            }
+          ],
+          "runlevel": "dry-run",
+          "message": "Simulated measurement modules"
+        },
+        "raw_response": {
+          "jsonrpc": "2.0",
+          "id": 1,
+          "result": {
+            "content": [
+              {
+                "type": "text",
+                "text": "{\n  \"modules\": [\n    {\n      \"name\": \"photoluminescence_scan\",\n      \"type\": \"spectroscopy\",\n      \"description\": \"PL spectroscopy measurement\",\n      \"parameters\": [\n        \"wavelength_start\",\n        \"wavelength_end\",\n        \"wavelength_step\",\n        \"integration_time\",\n        \"laser_power\"\n      ]\n    },\n    {\n      \"name\": \"gate_sweep\",\n      \"type\": \"transport\",\n      \"description\": \"Gate voltage sweep measurement\",\n      \"parameters\": [\n        \"gate_start\",\n        \"gate_end\",\n        \"gate_step\",\n        \"bias_voltage\",\n        \"measurement_time\"\n      ]\n    },\n    {\n      \"name\": \"resonance_scan\",\n      \"type\": \"spectroscopy\",\n      \"description\": \"Resonance frequency scan\",\n      \"parameters\": [\n        \"frequency_start\",\n        \"frequency_end\",\n        \"frequency_step\",\n        \"power\",\n        \"integration_time\"\n      ]\n    },\n    {\n      \"name\": \"time_trace\",\n      \"type\": \"time_series\",\n      \"description\": \"Time-resolved measurement\",\n      \"parameters\": [\n        \"total_time\",\n        \"time_resolution\",\n        \"trigger_source\"\n      ]\n    },\n    {\n      \"name\": \"2d_gate_map\",\n      \"type\": \"transport_2d\",\n      \"description\": \"2D gate voltage map\",\n      \"parameters\": [\n        \"gate1_start\",\n        \"gate1_end\",\n        \"gate1_steps\",\n        \"gate2_start\",\n        \"gate2_end\",\n        \"gate2_steps\",\n        \"bias_voltage\",\n        \"integration_time\"\n      ]\n    }\n  ],\n  \"runlevel\": \"dry-run\",\n  \"message\": \"Simulated measurement modules\"\n}"
+              }
+            ]
+          }
+        }
+      }
+    },
+    "measurement_start_5": {
+      "tool_name": "measurement_start",
+      "description": "Start a measurement",
+      "arguments": {
+        "module_name": "photoluminescence_scan",
+        "parameters": {
+          "wavelength_start": 630,
+          "wavelength_end": 650,
+          "integration_time": 0.5
+        }
+      },
+      "result": {
+        "success": true,
+        "result": {
+          "status": "started",
+          "measurement_id": "d31a4484",
+          "module": "photoluminescence_scan",
+          "parameters": {
+            "wavelength_start": 630,
+            "wavelength_end": 650,
+            "integration_time": 0.5
+          },
+          "estimated_duration": 15.0,
+          "message": "Dry-run: Simulated measurement started",
+          "validation_results": [
+            {
+              "parameter": "wavelength_start",
+              "safe": true,
+              "message": "No safety limit defined for wavelength_start"
+            },
+            {
+              "parameter": "wavelength_end",
+              "safe": true,
+              "message": "No safety limit defined for wavelength_end"
+            },
+            {
+              "parameter": "integration_time",
+              "safe": true,
+              "message": "No safety limit defined for integration_time"
+            }
+          ]
+        },
+        "raw_response": {
+          "jsonrpc": "2.0",
+          "id": 1,
+          "result": {
+            "content": [
+              {
+                "type": "text",
+                "text": "{\n  \"status\": \"started\",\n  \"measurement_id\": \"d31a4484\",\n  \"module\": \"photoluminescence_scan\",\n  \"parameters\": {\n    \"wavelength_start\": 630,\n    \"wavelength_end\": 650,\n    \"integration_time\": 0.5\n  },\n  \"estimated_duration\": 15.0,\n  \"message\": \"Dry-run: Simulated measurement started\",\n  \"validation_results\": [\n    {\n      \"parameter\": \"wavelength_start\",\n      \"safe\": true,\n      \"message\": \"No safety limit defined for wavelength_start\"\n    },\n    {\n      \"parameter\": \"wavelength_end\",\n      \"safe\": true,\n      \"message\": \"No safety limit defined for wavelength_end\"\n    },\n    {\n      \"parameter\": \"integration_time\",\n      \"safe\": true,\n      \"message\": \"No safety limit defined for integration_time\"\n    }\n  ]\n}"
+              }
+            ]
+          }
+        }
+      }
+    },
+    "safety_check_interlocks_6": {
+      "tool_name": "safety_check_interlocks",
+      "description": "Check safety interlocks",
+      "arguments": {},
+      "result": {
+        "success": true,
+        "result": {
+          "status": "success",
+          "runlevel": "dry-run",
+          "interlocks": {
+            "overall_status": "safe",
+            "emergency_stop": true,
+            "interlocks": {
+              "emergency_stop": {
+                "status": true,
+                "description": "Emergency stop button status",
+                "critical": true,
+                "message": "Simulated OK - Emergency stop button status"
+              },
+              "cryostat_pressure": {
+                "status": true,
+                "description": "Cryostat pressure within limits",
+                "critical": true,
+                "message": "Simulated OK - Cryostat pressure within limits"
+              },
+              "laser_shutter": {
+                "status": true,
+                "description": "Laser safety shutter operational",
+                "critical": false,
+                "message": "Simulated OK - Laser safety shutter operational"
+              },
+              "temperature_stable": {
+                "status": true,
+                "description": "Temperature stability check",
+                "critical": false,
+                "message": "Simulated OK - Temperature stability check"
+              },
+              "instrument_connectivity": {
+                "status": true,
+                "description": "All instruments responding",
+                "critical": false,
+                "message": "Simulated OK - All instruments responding"
+              }
+            },
+            "critical_failures": [],
+            "warnings": []
+          },
+          "timestamp": "2025-09-11T19:05:56.727144",
+          "message": "Interlock check completed - safe"
+        },
+        "raw_response": {
+          "jsonrpc": "2.0",
+          "id": 1,
+          "result": {
+            "content": [
+              {
+                "type": "text",
+                "text": "{\n  \"status\": \"success\",\n  \"runlevel\": \"dry-run\",\n  \"interlocks\": {\n    \"overall_status\": \"safe\",\n    \"emergency_stop\": true,\n    \"interlocks\": {\n      \"emergency_stop\": {\n        \"status\": true,\n        \"description\": \"Emergency stop button status\",\n        \"critical\": true,\n        \"message\": \"Simulated OK - Emergency stop button status\"\n      },\n      \"cryostat_pressure\": {\n        \"status\": true,\n        \"description\": \"Cryostat pressure within limits\",\n        \"critical\": true,\n        \"message\": \"Simulated OK - Cryostat pressure within limits\"\n      },\n      \"laser_shutter\": {\n        \"status\": true,\n        \"description\": \"Laser safety shutter operational\",\n        \"critical\": false,\n        \"message\": \"Simulated OK - Laser safety shutter operational\"\n      },\n      \"temperature_stable\": {\n        \"status\": true,\n        \"description\": \"Temperature stability check\",\n        \"critical\": false,\n        \"message\": \"Simulated OK - Temperature stability check\"\n      },\n      \"instrument_connectivity\": {\n        \"status\": true,\n        \"description\": \"All instruments responding\",\n        \"critical\": false,\n        \"message\": \"Simulated OK - All instruments responding\"\n      }\n    },\n    \"critical_failures\": [],\n    \"warnings\": []\n  },\n  \"timestamp\": \"2025-09-11T19:05:56.727144\",\n  \"message\": \"Interlock check completed - safe\"\n}"
+              }
+            ]
+          }
+        }
+      }
+    },
+    "safety_validate_parameter_7": {
+      "tool_name": "safety_validate_parameter",
+      "description": "Validate a parameter",
+      "arguments": {
+        "parameter": "laser_power",
+        "value": 2.5
+      },
+      "result": {
+        "success": true,
+        "result": {
+          "status": "success",
+          "parameter": "laser_power",
+          "value": 2.5,
+          "is_safe": true,
+          "message": "laser_power 2.5 mW within limits",
+          "timestamp": "2025-09-11T19:05:56.899861"
+        },
+        "raw_response": {
+          "jsonrpc": "2.0",
+          "id": 1,
+          "result": {
+            "content": [
+              {
+                "type": "text",
+                "text": "{\n  \"status\": \"success\",\n  \"parameter\": \"laser_power\",\n  \"value\": 2.5,\n  \"is_safe\": true,\n  \"message\": \"laser_power 2.5 mW within limits\",\n  \"timestamp\": \"2025-09-11T19:05:56.899861\"\n}"
+              }
+            ]
+          }
+        }
+      }
+    },
+    "safety_validate_parameter_8": {
+      "tool_name": "safety_validate_parameter",
+      "description": "Test parameter validation (should fail)",
+      "arguments": {
+        "parameter": "laser_power",
+        "value": 15.0
+      },
+      "result": {
+        "success": true,
+        "result": {
+          "status": "success",
+          "parameter": "laser_power",
+          "value": 15.0,
+          "is_safe": false,
+          "message": "laser_power 15.0 mW above maximum 10.0 mW",
+          "timestamp": "2025-09-11T19:05:57.059001"
+        },
+        "raw_response": {
+          "jsonrpc": "2.0",
+          "id": 1,
+          "result": {
+            "content": [
+              {
+                "type": "text",
+                "text": "{\n  \"status\": \"success\",\n  \"parameter\": \"laser_power\",\n  \"value\": 15.0,\n  \"is_safe\": false,\n  \"message\": \"laser_power 15.0 mW above maximum 10.0 mW\",\n  \"timestamp\": \"2025-09-11T19:05:57.059001\"\n}"
+              }
+            ]
+          }
+        }
+      }
+    },
+    "safety_set_runlevel_9": {
+      "tool_name": "safety_set_runlevel",
+      "description": "Set runlevel to simulation",
+      "arguments": {
+        "runlevel": "sim",
+        "reason": "Testing MCP integration"
+      },
+      "result": {
+        "success": true,
+        "result": {
+          "status": "success",
+          "previous_runlevel": "sim",
+          "current_runlevel": "sim",
+          "reason": "Testing MCP integration",
+          "message": "Runlevel changed to sim",
+          "timestamp": "2025-09-11T19:05:57.219375"
+        },
+        "raw_response": {
+          "jsonrpc": "2.0",
+          "id": 1,
+          "result": {
+            "content": [
+              {
+                "type": "text",
+                "text": "{\n  \"status\": \"success\",\n  \"previous_runlevel\": \"sim\",\n  \"current_runlevel\": \"sim\",\n  \"reason\": \"Testing MCP integration\",\n  \"message\": \"Runlevel changed to sim\",\n  \"timestamp\": \"2025-09-11T19:05:57.219375\"\n}"
+              }
+            ]
+          }
+        }
+      }
+    },
+    "system_emergency_stop_10": {
+      "tool_name": "system_emergency_stop",
+      "description": "Test emergency stop",
+      "arguments": {
+        "reason": "Testing emergency procedures"
+      },
+      "result": {
+        "success": true,
+        "result": {
+          "status": "emergency_stop_activated",
+          "reason": "Testing emergency procedures",
+          "stopped_measurements": [],
+          "runlevel": "dry-run",
+          "message": "All operations halted - manual reset required",
+          "timestamp": "2025-09-11T19:05:57.441935"
+        },
+        "raw_response": {
+          "jsonrpc": "2.0",
+          "id": 1,
+          "result": {
+            "content": [
+              {
+                "type": "text",
+                "text": "{\n  \"status\": \"emergency_stop_activated\",\n  \"reason\": \"Testing emergency procedures\",\n  \"stopped_measurements\": [],\n  \"runlevel\": \"dry-run\",\n  \"message\": \"All operations halted - manual reset required\",\n  \"timestamp\": \"2025-09-11T19:05:57.441935\"\n}"
+              }
+            ]
+          }
+        }
+      }
+    },
+    "feedback_submit_11": {
+      "tool_name": "feedback_submit",
+      "description": "Submit test feedback",
+      "arguments": {
+        "feedback_type": "usage_improvement",
+        "message": "Testing the feedback system during MCP integration validation",
+        "user_context": "Running comprehensive tool tests"
+      },
+      "result": {
+        "success": true,
+        "result": {
+          "status": "received",
+          "message": "Thank you for your feedback! It has been logged for review.",
+          "feedback_id": "qudi-mcp-4599",
+          "next_steps": "Your feedback will be reviewed and may result in GitHub issues or improvements to the qudi MCP integration."
+        },
+        "raw_response": {
+          "jsonrpc": "2.0",
+          "id": 1,
+          "result": {
+            "content": [
+              {
+                "type": "text",
+                "text": "{\n  \"status\": \"received\",\n  \"message\": \"Thank you for your feedback! It has been logged for review.\",\n  \"feedback_id\": \"qudi-mcp-4599\",\n  \"next_steps\": \"Your feedback will be reviewed and may result in GitHub issues or improvements to the qudi MCP integration.\"\n}"
+              }
+            ]
+          }
+        }
+      }
+    }
+  },
+  "issues": [],
+  "summary": {
+    "total_tests": 11,
+    "successful_tests": 11,
+    "failed_tests": 0
+  }
+}

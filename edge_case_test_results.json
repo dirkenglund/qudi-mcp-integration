@@ -1,0 +1,190 @@
+{
+  "timestamp": "2024-09-11",
+  "parameter_validation": [
+    {
+      "parameter": "laser_power",
+      "value": 0.1,
+      "expected_safe": true,
+      "actual_safe": true,
+      "correct": true,
+      "message": "laser_power 0.1 mW within limits"
+    },
+    {
+      "parameter": "laser_power",
+      "value": 10.0,
+      "expected_safe": true,
+      "actual_safe": true,
+      "correct": true,
+      "message": "laser_power 10.0 mW within limits"
+    },
+    {
+      "parameter": "laser_power",
+      "value": 15.0,
+      "expected_safe": false,
+      "actual_safe": false,
+      "correct": true,
+      "message": "laser_power 15.0 mW above maximum 10.0 mW"
+    },
+    {
+      "parameter": "gate_voltage",
+      "value": 3.0,
+      "expected_safe": false,
+      "actual_safe": false,
+      "correct": true,
+      "message": "gate_voltage 3.0 V above maximum 2.0 V"
+    },
+    {
+      "parameter": "gate_voltage",
+      "value": 1.5,
+      "expected_safe": true,
+      "actual_safe": true,
+      "correct": true,
+      "message": "gate_voltage 1.5 V within limits"
+    },
+    {
+      "parameter": "gate_voltage",
+      "value": -1.5,
+      "expected_safe": true,
+      "actual_safe": true,
+      "correct": true,
+      "message": "gate_voltage -1.5 V within limits"
+    },
+    {
+      "parameter": "laser_power",
+      "value": 0.0,
+      "expected_safe": true,
+      "actual_safe": true,
+      "correct": true,
+      "message": "laser_power 0.0 mW within limits"
+    },
+    {
+      "parameter": "gate_voltage",
+      "value": 0.0,
+      "expected_safe": true,
+      "actual_safe": true,
+      "correct": true,
+      "message": "gate_voltage 0.0 V within limits"
+    },
+    {
+      "parameter": "temperature",
+      "value": 4.0,
+      "expected_safe": true,
+      "actual_safe": true,
+      "correct": true,
+      "message": "temperature 4.0 K within limits"
+    },
+    {
+      "parameter": "temperature",
+      "value": 400.0,
+      "expected_safe": false,
+      "actual_safe": false,
+      "correct": true,
+      "message": "temperature 400.0 K above maximum 300.0 K"
+    },
+    {
+      "parameter": "unknown_param",
+      "value": 1.0,
+      "expected_safe": true,
+      "actual_safe": true,
+      "correct": true,
+      "message": "No safety limit defined for unknown_param"
+    }
+  ],
+  "runlevel_transitions": [
+    {
+      "target_runlevel": "dry-run",
+      "actual_runlevel": "dry-run",
+      "success": true,
+      "message": "Runlevel changed to dry-run"
+    },
+    {
+      "target_runlevel": "sim",
+      "actual_runlevel": "sim",
+      "success": true,
+      "message": "Runlevel changed to sim"
+    },
+    {
+      "target_runlevel": "dry-run",
+      "actual_runlevel": "dry-run",
+      "success": true,
+      "message": "Runlevel changed to dry-run"
+    },
+    {
+      "target_runlevel": "live",
+      "actual_runlevel": "dry-run",
+      "success": true,
+      "message": "LIVE mode requires explicit human approval (not yet implemented)"
+    },
+    {
+      "target_runlevel": "invalid",
+      "actual_runlevel": "unknown",
+      "success": true,
+      "message": ""
+    }
+  ],
+  "measurement_validation": [
+    {
+      "test_name": "Valid PL scan",
+      "module": "photoluminescence_scan",
+      "success": true,
+      "status": "started",
+      "unsafe_params": 0,
+      "message": "Dry-run: Simulated measurement started"
+    },
+    {
+      "test_name": "PL scan with high laser power",
+      "module": "photoluminescence_scan",
+      "success": true,
+      "status": "unknown",
+      "unsafe_params": 1,
+      "message": ""
+    },
+    {
+      "test_name": "Gate sweep measurement",
+      "module": "gate_sweep",
+      "success": true,
+      "status": "started",
+      "unsafe_params": 0,
+      "message": "Dry-run: Simulated measurement started"
+    },
+    {
+      "test_name": "Unknown measurement module",
+      "module": "nonexistent_measurement",
+      "success": true,
+      "status": "started",
+      "unsafe_params": 0,
+      "message": "Dry-run: Simulated measurement started"
+    }
+  ],
+  "feedback_tests": [
+    {
+      "feedback_type": "bug_report",
+      "success": true,
+      "feedback_id": "qudi-mcp-2362",
+      "status": "received"
+    },
+    {
+      "feedback_type": "feature_request",
+      "success": true,
+      "feedback_id": "qudi-mcp-4286",
+      "status": "received"
+    },
+    {
+      "feedback_type": "usage_improvement",
+      "success": true,
+      "feedback_id": "qudi-mcp-9691",
+      "status": "received"
+    },
+    {
+      "feedback_type": "general",
+      "success": true,
+      "feedback_id": "qudi-mcp-5907",
+      "status": "received"
+    }
+  ],
+  "summary": {
+    "total_tests": 24,
+    "successful_tests": 24,
+    "success_rate": 100.0
+  }
+}

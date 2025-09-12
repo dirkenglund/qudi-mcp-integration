@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>qudi MCP Integration - Quantum Photonics Control</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            color: white;
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            background: linear-gradient(45deg, #ff6b6b, #4ecdc4);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .status-panel {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .status-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .status-item {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+            padding: 20px;
+            text-align: center;
+        }
+        
+        .status-icon {
+            font-size: 2em;
+            margin-bottom: 10px;
+        }
+        
+        .command-section {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 30px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .command-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+        
+        .command-card {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+            padding: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .command-card:hover {
+            background: rgba(255, 255, 255, 0.1);
+            transform: translateY(-2px);
+        }
+        
+        .command-title {
+            font-size: 1.2em;
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #4ecdc4;
+        }
+        
+        .command-description {
+            font-size: 0.9em;
+            opacity: 0.8;
+            margin-bottom: 15px;
+        }
+        
+        .command-text {
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 5px;
+            padding: 10px;
+            font-family: 'Monaco', 'Menlo', monospace;
+            font-size: 0.8em;
+            border-left: 3px solid #4ecdc4;
+        }
+        
+        .safety-warning {
+            background: rgba(255, 193, 7, 0.2);
+            border: 1px solid rgba(255, 193, 7, 0.5);
+            border-radius: 10px;
+            padding: 15px;
+            margin: 20px 0;
+        }
+        
+        .integration-status {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        
+        .status-indicator {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: #4ecdc4;
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0% { opacity: 1; }
+            50% { opacity: 0.5; }
+            100% { opacity: 1; }
+        }
+        
+        .footer {
+            text-align: center;
+            margin-top: 40px;
+            opacity: 0.7;
+            font-size: 0.9em;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🔬 qudi MCP Integration</h1>
+            <p>Quantum Photonics Experiment Automation via Claude</p>
+            <div class="integration-status">
+                <div class="status-indicator"></div>
+                <span>MCP Integration Active</span>
+            </div>
+        </div>
+        
+        <div class="status-panel">
+            <h2>🎯 System Status</h2>
+            <div class="status-grid">
+                <div class="status-item">
+                    <div class="status-icon">🛡️</div>
+                    <h3>Safety System</h3>
+                    <p>Active - Dry-run Mode</p>
+                </div>
+                <div class="status-item">
+                    <div class="status-icon">🔧</div>
+                    <h3>Instruments</h3>
+                    <p>6 Quantum Devices Ready</p>
+                </div>
+                <div class="status-item">
+                    <div class="status-icon">📊</div>
+                    <h3>Measurements</h3>
+                    <p>5 Modules Available</p>
+                </div>
+                <div class="status-item">
+                    <div class="status-icon">🤖</div>
+                    <h3>Claude Integration</h3>
+                    <p>MCP Server Running</p>
+                </div>
+            </div>
+            
+            <div class="safety-warning">
+                <strong>⚠️ Safety Notice:</strong> System is in dry-run mode for safe development. 
+                Use "Set runlevel to sim" for realistic testing, or "live" for actual hardware control (requires approval).
+            </div>
+        </div>
+        
+        <div class="command-section">
+            <h2>🚀 Claude Desktop Commands</h2>
+            <p style="margin-bottom: 20px;">Copy these commands and paste them into Claude Desktop to control your quantum photonics experiments:</p>
+            
+            <div class="command-grid">
+                <div class="command-card" onclick="copyCommand('station-info')">
+                    <div class="command-title">System Information</div>
+                    <div class="command-description">Get overall system status and configuration</div>
+                    <div class="command-text" id="station-info">Get qudi station information</div>
+                </div>
+                
+                <div class="command-card" onclick="copyCommand('safety-check')">
+                    <div class="command-title">Safety Check</div>
+                    <div class="command-description">Verify all safety interlocks and system health</div>
+                    <div class="command-text" id="safety-check">Check all safety interlocks</div>
+                </div>
+                
+                <div class="command-card" onclick="copyCommand('list-modules')">
+                    <div class="command-title">Measurement Modules</div>
+                    <div class="command-description">See available quantum measurement capabilities</div>
+                    <div class="command-text" id="list-modules">List available qudi measurement modules</div>
+                </div>
+                
+                <div class="command-card" onclick="copyCommand('list-instruments')">
+                    <div class="command-title">Quantum Instruments</div>
+                    <div class="command-description">View connected quantum devices and instruments</div>
+                    <div class="command-text" id="list-instruments">List available qudi instruments</div>
+                </div>
+                
+                <div class="command-card" onclick="copyCommand('pl-scan')">
+                    <div class="command-title">Photoluminescence Scan</div>
+                    <div class="command-description">Start quantum dot spectroscopy measurement</div>
+                    <div class="command-text" id="pl-scan">Start a photoluminescence scan from 630 to 650 nm with 1 second integration time</div>
+                </div>
+                
+                <div class="command-card" onclick="copyCommand('gate-sweep')">
+                    <div class="command-title">Gate Voltage Sweep</div>
+                    <div class="command-description">Quantum transport measurement across gate voltages</div>
+                    <div class="command-text" id="gate-sweep">Start a gate voltage sweep from -1V to +1V with 0.1V steps</div>
+                </div>
+                
+                <div class="command-card" onclick="copyCommand('laser-check')">
+                    <div class="command-title">Laser Safety Check</div>
+                    <div class="command-description">Validate laser power settings against safety limits</div>
+                    <div class="command-text" id="laser-check">Can I safely set the laser power to 3 milliwatts?</div>
+                </div>
+                
+                <div class="command-card" onclick="copyCommand('2d-map')">
+                    <div class="command-title">2D Stability Diagram</div>
+                    <div class="command-description">Generate quantum dot charge stability map</div>
+                    <div class="command-text" id="2d-map">Start a 2D gate map measurement for quantum dot characterization</div>
+                </div>
+                
+                <div class="command-card" onclick="copyCommand('emergency-stop')">
+                    <div class="command-title">Emergency Stop</div>
+                    <div class="command-description">Immediate halt of all operations (use only when needed)</div>
+                    <div class="command-text" id="emergency-stop">Emergency stop all operations</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="footer">
+            <p>🔬 MIT Quantum Photonics Group | MCP Integration v0.1.0</p>
+            <p>Repository: <a href="https://github.com/dirkenglund/qudi-iqo-modules-QPG/tree/dev/llm-mcp-automation" style="color: #4ecdc4;">qudi-iqo-modules-QPG</a></p>
+        </div>
+    </div>
+
+    <script>
+        function copyCommand(commandId) {
+            const commandText = document.getElementById(commandId).textContent;
+            
+            navigator.clipboard.writeText(commandText).then(() => {
+                // Visual feedback
+                const card = document.querySelector(`[onclick="copyCommand('${commandId}')"]`);
+                const originalBg = card.style.background;
+                card.style.background = 'rgba(78, 205, 196, 0.3)';
+                card.style.border = '1px solid rgba(78, 205, 196, 0.8)';
+                
+                setTimeout(() => {
+                    card.style.background = originalBg;
+                    card.style.border = '1px solid rgba(255, 255, 255, 0.1)';
+                }, 1000);
+                
+                // Show temporary notification
+                showNotification(`Copied: "${commandText}"`);
+            }).catch(err => {
+                console.error('Failed to copy command:', err);
+                showNotification('Failed to copy command', 'error');
+            });
+        }
+        
+        function showNotification(message, type = 'success') {
+            const notification = document.createElement('div');
+            notification.style.cssText = `
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                background: ${type === 'error' ? 'rgba(255, 107, 107, 0.9)' : 'rgba(78, 205, 196, 0.9)'};
+                color: white;
+                padding: 15px 20px;
+                border-radius: 10px;
+                font-weight: bold;
+                z-index: 1000;
+                backdrop-filter: blur(10px);
+                transform: translateX(100%);
+                transition: transform 0.3s ease;
+            `;
+            notification.textContent = message;
+            
+            document.body.appendChild(notification);
+            
+            // Slide in
+            setTimeout(() => {
+                notification.style.transform = 'translateX(0)';
+            }, 100);
+            
+            // Slide out and remove
+            setTimeout(() => {
+                notification.style.transform = 'translateX(100%)';
+                setTimeout(() => document.body.removeChild(notification), 300);
+            }, 3000);
+        }
+        
+        // Add some interactive elements on page load
+        document.addEventListener('DOMContentLoaded', () => {
+            // Animate status indicators
+            const indicators = document.querySelectorAll('.status-indicator');
+            indicators.forEach((indicator, index) => {
+                indicator.style.animationDelay = `${index * 0.5}s`;
+            });
+            
+            // Add hover effects to command cards
+            const cards = document.querySelectorAll('.command-card');
+            cards.forEach(card => {
+                card.addEventListener('mouseenter', () => {
+                    card.style.transform = 'translateY(-2px) scale(1.02)';
+                });
+                
+                card.addEventListener('mouseleave', () => {
+                    card.style.transform = 'translateY(0) scale(1)';
+                });
+            });
+        });
+    </script>
+</body>
+</html>

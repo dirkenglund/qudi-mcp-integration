@@ -1,0 +1,13 @@
+{
+  "mcpServers": {
+    "qudi-mcp": {
+      "command": "/usr/bin/python3",
+      "args": ["/FULL/PATH/TO/qudi-iqo-modules-QPG/mcp_integration/qudi_mcp_server.py"],
+      "env": {
+        "PYTHONPATH": "/FULL/PATH/TO/qudi-iqo-modules-QPG",
+        "QUDI_CONFIG_PATH": "/FULL/PATH/TO/your_qudi_config.cfg",
+        "QUDI_MCP_LOG_LEVEL": "INFO"
+      }
+    }
+  }
+}
