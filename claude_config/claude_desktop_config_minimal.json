@@ -1,0 +1,31 @@
+{
+  "mcpServers": {
+    "qudi-mcp": {
+      "command": "/opt/homebrew/bin/python3",
+      "args": ["/private/tmp/qudi-mcp-integration/simple_mcp_server.py"],
+      "env": {
+        "PYTHONPATH": "/private/tmp/qudi-mcp-integration",
+        "QUDI_MCP_LOG_LEVEL": "INFO"
+      }
+    },
+    "neo4j-memory": {
+      "command": "/Users/englund/.pyenv/shims/python",
+      "args": ["/Users/englund/.claude/run_neo4j_mcp.py"],
+      "env": {
+        "NEO4J_URI": "neo4j+s://f7264f16.databases.neo4j.io",
+        "NEO4J_USERNAME": "neo4j",
+        "NEO4J_PASSWORD": "tCZI5wD6XmNktXnmdmdpgk-yBQjzG9rYkTFdCfc_HtI",
+        "NEO4J_DATABASE": "neo4j",
+        "PYTHONUNBUFFERED": "1"
+      }
+    },
+    "Control Chrome": {
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-puppeteer"]
+    },
+    "Control your Mac": {
+      "command": "npx", 
+      "args": ["@anthropic-ai/mcp-server-apple-automation@latest"]
+    }
+  }
+}
